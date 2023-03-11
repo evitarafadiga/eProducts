@@ -36,7 +36,7 @@ namespace eProducts.Data
                         },
                         new Product()
                         {
-                            Name = "Mesa de Centro Madeira",
+                            Name = "Mesa de Centro de Madeira",
                             Description = "Mesa inteiriça de madeira com tampo de vidro.",
                             Image = "https://live.staticflickr.com/3300/3516646732_09d467e0ff_q.jpg",
                             Price = 299.90

@@ -1,5 +1,6 @@
 ﻿using eProducts.Data;
 using eProducts.Data.Services;
+using eProducts.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -20,6 +21,22 @@ namespace eProducts.Controllers
         {
             var allProducts = await _service.GetAll();
             return View(allProducts);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Name,Description,Image,Price")] Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(product);
+            }
+             _service.Add(product);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace eProducts.Data.Services
         
         public void Add(Product product)
         {
-            throw new System.NotImplementedException();
+            _context.Products.Add(product);
         }
 
         public void Delete(int id)

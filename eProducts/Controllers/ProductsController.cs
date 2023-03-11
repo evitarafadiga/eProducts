@@ -1,4 +1,5 @@
 ﻿using eProducts.Data;
+using eProducts.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -9,15 +10,15 @@ namespace eProducts.Controllers
     public class ProductsController : Controller
     {
 
-        private readonly AppDbContext _context;
+        private readonly IProductsService _service;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(IProductsService service)
         {
-            _context = context;
+            _service = service;
         }
         public async Task<IActionResult> Index()
         {
-            var allProducts = await _context.Products.ToListAsync();
+            var allProducts = await _service.GetAll();
             return View(allProducts);
         }
     }

@@ -1,4 +1,5 @@
 using eProducts.Data;
+using eProducts.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,8 @@ namespace eProducts
             //DbContext configurações
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
+            //Serviços
+            services.AddScoped<IProductsService, ProductsService>();
             services.AddControllersWithViews();
         }
 

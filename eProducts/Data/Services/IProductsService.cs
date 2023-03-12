@@ -8,10 +8,10 @@ namespace eProducts.Data.Services
     public interface IProductsService
     {
 
-        Task<IEnumerable<Product>> GetAll();        
-        Product GetById(int id);    
-        void Add(Product product);
-        Product Update(int id, Product newProduct);
-        void Delete(int id);
+        Task<IEnumerable<Product>> GetAllAsync();        
+        Task<Product> GetByIdAsync(int id);    
+        Task AddAsync(Product product);
+        Task<Product> UpdateAsync(int id, Product newProduct);
+        Task DeleteAsync(int id);
     }
 }

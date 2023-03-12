@@ -14,17 +14,20 @@ namespace eProducts.Data.Services
             _context = context;
         }  
         
-        public void Add(Product product)
+        public async Task AddAsync(Product product)
         {
-            _context.Products.Add(product);
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var result = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            _context.Products.Remove(result);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
             var result = await _context.Products.ToListAsync();
             return result;
@@ -35,9 +38,17 @@ namespace eProducts.Data.Services
             throw new System.NotImplementedException();
         }
 
-        public Product Update(int id, Product newProduct)
+        public async Task<Product> UpdateAsync(int id, Product newProduct)
         {
-            throw new System.NotImplementedException();
+            _context.Update(newProduct);
+            await _context.SaveChangesAsync();
+            return newProduct;
+        }
+
+        public async Task<Product> GetByIdAsync(int id)
+        {
+            var result = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
         }
     }
 }

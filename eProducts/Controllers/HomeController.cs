@@ -1,4 +1,7 @@
-﻿using eProducts.Models;
+﻿using eProducts.Data;
+using eProducts.Data.ViewModels;
+using eProducts.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 namespace eProducts.Controllers
 {
     public class HomeController : Controller
-    {
+    {        
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -18,6 +21,7 @@ namespace eProducts.Controllers
             _logger = logger;
         }
 
+        
         public IActionResult Index()
         {
             return View();

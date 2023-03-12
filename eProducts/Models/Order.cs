@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace eProducts.Models
 {
-    public class Cart
+    public class Order
     {
         [Key]
         public int Id { get; set; }
-
-        public List<Product> Products { get; set; }
+        public string Email { get; set; }
+        public string UserId { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

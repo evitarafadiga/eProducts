@@ -1,7 +1,9 @@
 using eProducts.Data;
+using eProducts.Data.Cart;
 using eProducts.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,10 @@ namespace eProducts
 
             //Serviços
             services.AddScoped<IProductsService, ProductsService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+            services.AddSession();
+
             services.AddControllersWithViews();
         }
 
@@ -51,6 +57,8 @@ namespace eProducts
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

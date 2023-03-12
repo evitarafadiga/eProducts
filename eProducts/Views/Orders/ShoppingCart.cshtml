@@ -1,55 +1,73 @@
-﻿@model List<Order>
+﻿@using eProducts.Data.ViewModels;
+@model ShoppingCartVM
 
 @{
-    ViewData["Title"] = "All orders";
+    ViewData["Title"] = "Carrinho de Compras";
 }
 
 <div class="row">
     <div class="col-md-8 offset-2">
-        <p>
-            <h4>Pedidos</h4>
-        </p>
+        <div class="text-center">
+            <h2>Carrinho de Compras</h2>
+        </div>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Itens</th>
-                    <th>Total</th>
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                    {
-                        <th>Usuário</th>
-                    }
+                    <th>Quantidade</th>
+                    <th>Produto</th>
+                    <th>Preço</th>
+                    <th>Subtotal</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var order in Model)
+                @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
                 {
                     <tr>
-                        <td class="align-middle">@order.Id</td>
+                        <td class="align-middle">@item.Amount</td>
+                        <td class="align-middle">@item.Product.Name</td>
+                        <td class="align-middle">@item.Product.Price.ToString("c")</td>
+                        <td class="align-middle">@((item.Amount * item.Product.Price).ToString("c"))</td>
                         <td class="align-middle">
-                            <ul style="list-style-type:none">
-                                @foreach (var item in order.OrderItems)
-                                {
-                                    <li>
-                                        <div class="alert alert-info" role="alert">
-                                            <span class="badge bg-success">@item.Amount</span> [@item.Price.ToString("c")] - @item.Product.Name
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
+                            <a class="text-danger btn btn-danger" asp-controller="Orders" asp-action="RemoveItemFromShoppingCart"
+                           asp-route-id="@item.Product.Id"> -
+                                <i class="bi bi-cart-dash"></i>
+                            </a>
+                            |
+                            <a class="text-success btn btn-success" asp-controller="Orders" asp-action="AddItemToShoppingCart"
+                           asp-route-id="@item.Product.Id"> +
+                                <i class="bi bi-cart-plus"></i>
+                            </a>
                         </td>
-                        <td class="align-middle">
-                            @order.OrderItems.Select(m => m.Product.Price * m.Amount).Sum().ToString("c")
-                        </td>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            @*<td class="align-middle"> @order.Product.Name </td>*@
-                        }
                     </tr>
                 }
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"></td>
+                    <td><b>Total:</b></td>
+                    <td>
+                        @Model.ShoppingCartTotal.ToString("c")
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
+
+        <div class="text-right">
+            <div class="btn-group">
+                <a class="btn btn-outline-primary" >
+                        Finalizar Compra
+                    </a>
+                <div id="paypal-btn"></div>
+                <span style="padding:5px"></span>
+                <a class="btn btn-outline-success" asp-controller="Products" asp-action="Menu">
+                    Adicionar mais
+                </a>
+            </div>
+        </div>
 
     </div>
 </div>
+

@@ -2,6 +2,7 @@
 using eProducts.Data.Services;
 using eProducts.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace eProducts.Controllers
 {
@@ -26,7 +27,30 @@ namespace eProducts.Controllers
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
             };
+
             return View(response);
+        }
+
+        public async Task<IActionResult> AddItemToShoppingCart(int id)
+        {
+            var item = await _productsService.GetByIdAsync(id);
+
+            if (item != null)
+            {
+                _shoppingCart.AddItemToCart(item);
+            }
+            return RedirectToAction(nameof(ShoppingCart));
+        }
+
+        public async Task<IActionResult> RemoveItemFromShoppingCart(int id)
+        {
+            var item = await _productsService.GetByIdAsync(id);
+
+            if (item != null)
+            {
+                _shoppingCart.RemoveItemFromCart(item);
+            }
+            return RedirectToAction(nameof(ShoppingCart));
         }
     }
 }

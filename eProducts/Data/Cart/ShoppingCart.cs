@@ -32,7 +32,7 @@ namespace eProducts.Data.Cart
             return new ShoppingCart(context) { ShoppingCartId = cartId };
         }
 
-        public void AdditemToCart(Product product)
+        public void AddItemToCart(Product product)
         {
             var shoppingCartItem = _context.ShoppingCartItems
                 .FirstOrDefault(x => x.Product.Id == product.Id &&
